@@ -17,13 +17,11 @@ export default class App extends Component{
         
         return(
             <div className="moviesApp">
-                 <TabList/>  
+               <TabList/>  
                  <Search/>
                  <CardList/>
                  <Pagin/>
-
             </div>
-           
         )
         
     }

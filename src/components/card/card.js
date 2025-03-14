@@ -26,7 +26,7 @@ class SingleCard extends Component{
               className="movie-card__image"
             />
           );
-          const Rating= () => <Rate className='star' allowHalf count={10} defaultValue={Math.round(movie.vote_average*10)/10} />;
+          const Rating= () => <Rate className='star' allowHalf count={10} defaultValue={0} />;
          
           const truncateText = (text, maxLength) => {
             if (text.length <= maxLength) return text; // Если текст уже короткий, возвращаем его

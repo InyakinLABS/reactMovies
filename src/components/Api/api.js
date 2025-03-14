@@ -29,10 +29,10 @@ export default class MovieApi {
         }
     }
     // Асинхронный метод для получения фильмов
-    async fetchAllMovies() {
+    async fetchAllMovies(page=1) {
         try {
             // Выполняем запрос с использованием this.options
-            const response = await fetch('https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=1', this.options);
+            const response = await fetch(`https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=${page}`, this.options);
 
             // Проверяем, успешен ли запрос
             if (!response.ok) {
