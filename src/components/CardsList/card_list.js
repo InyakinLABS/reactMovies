@@ -1,63 +1,46 @@
-import React, { Component} from "react";
+import React, { Component } from "react";
 import SingleCard from "../card/card";
-import MovieApi from "../Api/api";
 import Loader from "../loader/loader";
 import Error from "../errorHandler/errorHandler";
-
+import { Pagination } from "antd";
 
 export default class CardList extends Component {
-    api = new MovieApi();
-    state = {
-        movies: [],
-        isLoading: true,
-        error: null,
-        genres:[],
-    };
+  render() {
+    const { movies, isLoading, error, currentPage,totalResults, onPageChange } = this.props;
+  
+   
+    let totalPages=totalResults>=500?3000:totalResults;
 
-    async componentDidMount() {
-        await this.getData();
+    if (error) {
+      return <Error error={error} />;
     }
 
-    
-    
-    getData = async () => {
-        try {
-            const data = await this.api.fetchAllMovies();
-            const genreData=await this.api.fetchGenres();
-           // Установка данных
-            this.setState({ movies: data.results, genres:genreData.genres, isLoading: false});
-        
-        } catch (error) {
-            console.error('Failed to fetch movies:', error);
-            this.setState({ error: error.message, isLoading: false });
-        }
-    };
+    if (isLoading) {
+      return <Loader />;
+    }
 
-    render() {
-      
-        const { movies,genres, isLoading, error } = this.state;
-        console.log("Movies in state:", movies);
-        console.log("Movies in state:", genres);
-       // Проверка состояния
-
-        if (error) {
-            return <Error error={error}/>;
-        }
-
-        if (isLoading) {
-            return <Loader/>;
-        }
-
-        return (
-          <ul className="card-list">
+    return (
+      <div>
+        <ul className="card-list">
           {movies && movies.length > 0 ? (
-              movies.slice().map((movie) => ( // Рендерим первые 6 фильмов
-                  <SingleCard key={movie.id} movie={movie} />
-              ))
+            movies.map((movie) => <SingleCard key={movie.id} movie={movie} />
+            
+        )
           ) : (
-              <p>No movies available</p>
+            <p>No movies available</p>
           )}
-      </ul>
-        );
-    }
+        </ul>
+        
+        <Pagination
+          current={currentPage}
+          pageSize={6} // Количество фильмов на странице
+          total={totalPages}
+          onChange={onPageChange}
+          showSizeChanger={false}
+          className="pagination"
+          align="center"
+        />
+    </div>
+    );
   }
+}

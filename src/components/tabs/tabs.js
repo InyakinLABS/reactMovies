@@ -1,26 +1,28 @@
 import React from "react";
 import { Tabs } from 'antd';
 
-  
-  const items= [
-    {
-      key: '1',
-      label: 'Search',
-      children: '',
-    },
-    {
-      key: '2',
-      label: 'Rated',
-      children:'',
-    },
-  ];
+const items = [
+  {
+    key: '1',
+    label: 'Search',
+  },
+  {
+    key: '2',
+    label: 'Rated',
+  },
+];
 
-const TabList=()=>{
-    return(
-      <div className="tabs">
-        <Tabs defaultActiveKey="2" items={items}/>
-      </div>
-        
-    )
-}
-export default TabList
+const TabList = ({ activeTab, onChange }) => {
+  return (
+    <div className="tabs">
+      <Tabs
+        defaultActiveKey="1"
+        activeKey={activeTab} // Управляем активной вкладкой
+        onChange={onChange}   // Обрабатываем изменение вкладки
+        items={items}
+      />
+    </div>
+  );
+};
+
+export default TabList;
