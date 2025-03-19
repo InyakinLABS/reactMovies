@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { debounce } from 'lodash'
-
+import { Alert } from 'antd'
 import TabList from '../tabs/tabs'
 import Search from '../search/search'
 import '../../css/normalize.css'
@@ -22,6 +22,7 @@ export default class App extends Component {
     searchQuery: '',
     totalPages: 0,
     guestToken: {},
+    hasRatedMovies: false,
   }
 
   componentDidMount() {
@@ -90,6 +91,7 @@ export default class App extends Component {
 
       const sessID = session.guestToken
       const response = await this.api.rateMovie(id, sessID, rating)
+      this.setState({ hasRatedMovies: true })
       return response
     } catch (error) {
       console.error('Ошибка при оценке фильма:', error.message)
@@ -105,19 +107,37 @@ export default class App extends Component {
         throw new Error('Срок действия токена истек')
       }
       const data = await this.api.showRatedList(session.guestToken)
+
+      // Проверяем, есть ли оцененные фильмы
+      const hasRatedMovies = data.results && data.results.length > 0
+
+      this.setState({
+        movies: data.results,
+        isLoading: false,
+        currentPage: page,
+        totalResults: data.total_results,
+        hasRatedMovies, // Обновляем состояние
+      })
+
       return data
     } catch (error) {
-      console.error('Ошибка при оценке фильма:', error.message)
+      console.error('Ошибка при получении списка оцененных фильмов:', error.message)
 
       if (error.message === 'Срок действия токена истек') {
         await this.setSession()
         this.getRatedList(page)
       }
+
+      this.setState({
+        error: error.message,
+        isLoading: false,
+        hasRatedMovies: false, // Если ошибка, считаем, что оцененных фильмов нет
+      })
     }
   }
 
   render() {
-    const { activeTab, movies, isLoading, error, currentPage, totalResults } = this.state
+    const { activeTab, movies, isLoading, error, currentPage, totalResults, hasRatedMovies } = this.state
     return (
       <GenresProvider>
         <div className="moviesApp">
@@ -142,15 +162,26 @@ export default class App extends Component {
 
           {}
           {activeTab === '2' && (
-            <CardList
-              rateMovie={this.rateMovie}
-              movies={movies}
-              isLoading={isLoading}
-              error={error}
-              currentPage={currentPage}
-              totalResults={totalResults}
-              onPageChange={this.handlePageChange}
-            />
+            <>
+              {hasRatedMovies ? (
+                <CardList
+                  rateMovie={this.rateMovie}
+                  movies={movies}
+                  isLoading={isLoading}
+                  error={error}
+                  currentPage={currentPage}
+                  totalResults={totalResults}
+                  onPageChange={this.handlePageChange}
+                />
+              ) : (
+                <Alert
+                  message="Нет оцененных фильмов"
+                  description="Пожалуйста, оцените фильмы на вкладке 'Search', чтобы они появились здесь."
+                  type="info"
+                  showIcon
+                />
+              )}
+            </>
           )}
         </div>
       </GenresProvider>

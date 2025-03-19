@@ -8,7 +8,6 @@ import Error from '../errorHandler/errorHandler'
 export default class CardList extends Component {
   render() {
     const { movies, isLoading, error, currentPage, totalResults, onPageChange, rateMovie } = this.props
-
     if (error) {
       return <Error error={error} />
     }
