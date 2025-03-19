@@ -1,128 +1,184 @@
-
-.moviesApp{
-    display: flex;
-    flex-direction: column;
-    max-width: 1100px;
-    align-self: center;
-    margin: 0 auto;
-
-}
-.tabs{
-    display: flex;
-    justify-content: center;
-    margin-top: 13px;
-}
-.search-bar{
-    margin-top: 20px;
-    margin-bottom: 34px;
-    
+/* BASE STYLES */
+.moviesApp {
+  display: flex;
+  flex-direction: column;
+  max-width: 1100px;
+  align-self: center;
+  margin: 0 auto;
+  padding: 0 10px; /* Добавляем отступы по бокам для мобильных устройств */
 }
 
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-top: 13px;
+}
 
-/* CARD STYLES*/
-.movie-card{
-    box-shadow: 0px 4px 12px 0px #00000026;
-    border-radius: 10px;
+.search-bar {
+  margin-top: 20px;
+  margin-bottom: 34px;
+}
+
+/* CARD STYLES */
+.movie-card {
+  box-shadow: 0px 4px 12px 0px #00000026;
+  border-radius: 10px;
+  height: auto; /* Высота автоматическая для мобильных устройств */
+  min-width: 400px; /* Ширина 100% для мобильных устройств */
+  max-width: 470px; /* Максимальная ширина для десктопов */
+  display: flex;
+  flex-direction: row; /* Меняем направление на колонку для мобильных устройств */
+  font-family: 'Inter';
+  position: relative;
+  margin-bottom: 20px; /* Отступ между карточками */
+}
+
+.movie-card__content {
+  box-sizing: border-box;
+  width: 100%; /* Ширина 100% для мобильных устройств */
+  padding: 10px; /* Добавляем отступы для контента */
+}
+
+.movie-card__image {
+  width: 183px !important; /* Ширина 100% для мобильных устройств */
+  height: 315px !important; /* Высота автоматическая */
+  border-radius: 10px;
+}
+
+.ant-image-mask {
+  width: 60px !important;
+  height: 90px !important;
+  border-radius: 10px;
+}
+
+.movie-card__header {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.movie-card__title {
+  font-weight: 400;
+  font-size: 16px; /* Уменьшаем размер шрифта для мобильных устройств */
+  line-height: 20px;
+  letter-spacing: 0%;
+  padding-top: 10px;
+  vertical-align: middle;
+  min-height: auto; /* Убираем фиксированную высоту */
+  width: 100%; /* Ширина 100% для мобильных устройств */
+}
+
+.movie-card__rating {
+  border: 2px solid;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  margin-left: auto;
+  margin-right: 5px;
+}
+
+.movie-card__description {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  justify-content: space-between;
+}
+
+.movie-card__date {
+  font-size: 12px;
+  color: #827e7e;
+}
+
+.movie-card__genres {
+  opacity: 65%;
+}
+
+.movie-card__button {
+  margin-right: 10px;
+}
+
+.movie-card__text {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 22px;
+  letter-spacing: 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-card__rating-wrapper {
+  position: static; /* Убираем абсолютное позиционирование для мобильных устройств */
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px; /* Добавляем отступ сверху */
+}
+
+/* Cardlist styles, pagination and loader styles */
+.card-list {
+  display: grid;
+  grid-template-columns: 1fr; /* Одноколоночный макет для мобильных устройств */
+  gap: 20px; /* Универсальный отступ между элементами */
+  margin: 0 auto;
+  justify-items: center;
+}
+
+.pagination {
+  margin: 20px auto;
+  margin-top: 20px;
+}
+
+.spinner {
+  background-color: white;
+  margin-top: 20vh;
+  margin-bottom: 20vh;
+  display: flex;
+  justify-content: center;
+}
+
+/* Медиазапросы для адаптации на мобильных устройствах */
+@media (min-width: 768px) {
+  .movie-card {
+    flex-direction: row; /* Возвращаем горизонтальный макет для десктопов */
     height: 280px;
     width: 470px;
-    display: flex;
-    font-family:"Inter";
+  }
 
-}
-.movie-card__content{
-    box-sizing: border-box;
-width: 280px;
-}
-.movie-card__image{
-    height:280px !important;
-    width: 183px !important;
-    border-radius: 10px;
-}
-.ant-image-mask{
-    height:280px !important;
-    width: 183px !important;
-    border-radius: 10px;
-}
-
-.movie-card__header{
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 10px;
-    align-items: center;
-    
-}
-.movie-card__title{
-font-weight: 400;
-font-size: 20px;
-line-height: 20px;
-letter-spacing: 0%;
-vertical-align: middle;
-min-height: 56px;
-width: 200px;
-align-content: center;
-}
-.movie-card__rating{
-    border: 2px solid #E9D100;
-    height: 30px;
-    width: 30px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    margin-left: auto;
-    margin-right: 10px;
-}
-
-.movie-card__description{
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-}
-.movie-card__date{
-    font-size: 12px;
-    color: #827E7E;
-}
-.movie-card__genres{
-   opacity: 65%;
-}
-.first{
-    margin-right: 10px;
-}
-.movie-card__text{
-font-weight: 400;
-font-size: 12px;
-line-height: 22px;
-letter-spacing: 0px;
-width: 228px !important;
-height: 100px !important;
-}
-
-.star{
+  .movie-card__content {
     width: 280px;
-    margin-top: 10px;
-}
+    padding: 0;
+  }
 
-/*END OF CARD STYLES*/
+  .movie-card__image {
+    width: 183px !important;
+    height: 280px !important;
+  }
 
-.card-list{
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 20px;
-    row-gap: 20px;
-    margin: 0 auto;
-    justify-items: center;
-}
-.pagination{
-    margin: 20px auto;
-    margin-top: 20px;
-    
-}
+  .ant-image-mask {
+    width: 183px !important;
+    height: 280px !important;
+  }
 
-.spinner{
-    background-color: white;
-    margin-top: 20vh;
-    margin-bottom: 20vh;
-    display: flex;
-   justify-content: center;
+  .movie-card__title {
+    font-size: 20px;
+    min-height: 56px;
+    width: 200px;
+  }
+
+  .movie-card__rating-wrapper {
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    justify-content: flex-end;
+    margin-right: 5px;
+  }
+
+  .card-list {
+    grid-template-columns: 1fr 1fr; /* Двухколоночный макет для десктопов */
+  }
 }
