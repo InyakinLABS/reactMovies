@@ -9,8 +9,6 @@ export default class CardList extends Component {
   render() {
     const { movies, isLoading, error, currentPage, totalResults, onPageChange, rateMovie } = this.props
 
-    let totalPages = totalResults >= 500 ? 3000 : totalResults
-
     if (error) {
       return <Error error={error} />
     }
@@ -31,8 +29,8 @@ export default class CardList extends Component {
 
         <Pagination
           current={currentPage}
-          pageSize={6} // Количество фильмов на странице
-          total={totalPages}
+          pageSize={20} // Количество фильмов на странице
+          total={totalResults}
           onChange={onPageChange}
           showSizeChanger={false}
           className="pagination"
